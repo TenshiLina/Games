@@ -1,0 +1,428 @@
+/* Glassfall — Aqua × Frutiger Aero × Liquid Glass */
+
+:root {
+  --ink: #0b2745;
+  --ink-soft: #3a5878;
+  --sky-top: #0f6fd1;
+  --sky-mid: #4db4f5;
+  --sky-low: #c9efff;
+  --grass-hi: #b8f25a;
+  --grass: #4fbf1f;
+  --grass-deep: #1f7a12;
+  --glass-fill: rgba(255, 255, 255, 0.22);
+  --glass-fill-strong: rgba(255, 255, 255, 0.42);
+  --glass-rim: rgba(255, 255, 255, 0.65);
+  --well-fill: rgba(4, 28, 66, 0.58);
+  --shadow: 0 18px 50px rgba(0, 38, 92, 0.35);
+  --font: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --cell: 34px;
+  --cols: 8;
+  --rows: 16;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--ink);
+  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 42%, var(--sky-low) 72%, #eafaff 100%);
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ───────────────────────── Scenery ───────────────────────── */
+
+.scenery {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sun {
+  position: absolute;
+  top: -18vmax;
+  right: -12vmax;
+  width: 60vmax;
+  height: 60vmax;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 240, 0.55) 18%, rgba(255, 255, 255, 0) 60%);
+}
+
+.cloud {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 60%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0) 70%);
+  filter: blur(6px);
+  animation: drift 90s linear infinite;
+}
+.cloud.c1 { top: 8%;  left: -10%; width: 38vw; height: 12vw; }
+.cloud.c2 { top: 20%; left: 45%;  width: 26vw; height: 8vw;  animation-duration: 120s; opacity: 0.8; }
+.cloud.c3 { top: 34%; left: 10%;  width: 30vw; height: 9vw;  animation-duration: 150s; opacity: 0.6; }
+
+@keyframes drift {
+  from { transform: translateX(-10vw); }
+  to   { transform: translateX(30vw); }
+}
+
+.aurora {
+  position: absolute;
+  left: -20%;
+  width: 140%;
+  height: 26vh;
+  border-radius: 50%;
+  filter: blur(28px);
+  mix-blend-mode: screen;
+  opacity: 0.7;
+}
+.aurora.a1 {
+  top: 48%;
+  background: linear-gradient(90deg, rgba(0, 255, 200, 0), rgba(120, 255, 180, 0.8) 35%, rgba(0, 210, 255, 0.7) 65%, rgba(0, 255, 200, 0));
+  transform: rotate(-7deg);
+}
+.aurora.a2 {
+  top: 58%;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.85) 50%, rgba(255, 255, 255, 0));
+  transform: rotate(-4deg);
+  height: 8vh;
+}
+
+.hill {
+  position: absolute;
+  left: 50%;
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+.hill.back {
+  bottom: -62vh;
+  width: 190vw;
+  height: 90vh;
+  background: radial-gradient(ellipse at 40% 8%, #9be36a 0%, #3fa92a 40%, #17651a 80%);
+  opacity: 0.85;
+}
+.hill.front {
+  bottom: -70vh;
+  width: 150vw;
+  height: 92vh;
+  left: 62%;
+  background:
+    radial-gradient(ellipse 55% 14% at 45% 6%, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(ellipse at 45% 10%, var(--grass-hi) 0%, var(--grass) 35%, var(--grass-deep) 75%);
+  box-shadow: 0 -2px 30px rgba(255, 255, 255, 0.35);
+}
+
+.bubbles span {
+  position: absolute;
+  bottom: -80px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.95) 0 8%, rgba(255, 255, 255, 0) 16%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0) 58%, rgba(190, 240, 255, 0.35) 72%, rgba(255, 255, 255, 0.85) 100%);
+  box-shadow: inset -3px -5px 10px rgba(120, 200, 255, 0.25);
+  animation: rise linear infinite;
+}
+
+@keyframes rise {
+  0%   { transform: translate(0, 0) scale(0.9); opacity: 0; }
+  10%  { opacity: 1; }
+  50%  { transform: translate(18px, -55vh) scale(1); }
+  90%  { opacity: 1; }
+  100% { transform: translate(-12px, -115vh) scale(1.05); opacity: 0; }
+}
+
+/* ───────────────────────── Liquid Glass ───────────────────────── */
+
+.glass {
+  position: relative;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.14) 55%, rgba(255, 255, 255, 0.24));
+  -webkit-backdrop-filter: blur(22px) saturate(170%);
+  backdrop-filter: blur(22px) saturate(170%);
+  box-shadow:
+    var(--shadow),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.25);
+}
+
+/* Specular rim: bright at top-left and bottom-right, fading between. */
+.glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.15) 30%, rgba(255, 255, 255, 0.05) 60%, rgba(255, 255, 255, 0.7));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  pointer-events: none;
+}
+
+/* ───────────────────────── Window ───────────────────────── */
+
+.window {
+  position: relative;
+  z-index: 1;
+  border-radius: 30px;
+  padding: 0 22px 22px;
+  max-width: 100%;
+}
+
+.titlebar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  margin: 0 -22px 18px;
+  border-radius: 30px 30px 0 0;
+  background:
+    repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0 1px, rgba(255, 255, 255, 0) 1px 3px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.12));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+}
+
+.titlebar h1 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.traffic {
+  position: absolute;
+  left: 20px;
+  display: flex;
+  gap: 8px;
+}
+
+.light {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), inset 0 0 0 0.5px rgba(0, 0, 0, 0.35);
+  position: relative;
+}
+.light::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  top: 1px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.1));
+}
+.light.red    { background: radial-gradient(circle at 50% 75%, #ffb3a8, #f4442e 55%, #a3160a); }
+.light.yellow { background: radial-gradient(circle at 50% 75%, #ffe9a3, #f6b21b 55%, #a36a00); }
+.light.green  { background: radial-gradient(circle at 50% 75%, #c9f5a8, #3fbf2b 55%, #1c6e10); }
+
+/* ───────────────────────── Layout ───────────────────────── */
+
+.content {
+  display: grid;
+  grid-template-columns: 168px auto 168px;
+  grid-template-areas: "left well right";
+  gap: 20px;
+  align-items: start;
+}
+
+.side { display: flex; flex-direction: column; gap: 16px; }
+.side.left  { grid-area: left; }
+.side.right { grid-area: right; }
+
+.panel {
+  border-radius: 20px;
+  padding: 12px 14px 14px;
+}
+
+.panel h2 {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.preview {
+  display: block;
+  width: 100%;
+  height: 96px;
+}
+.preview.tall { height: 250px; }
+
+.stats dl { margin: 0; display: grid; gap: 8px; }
+.stats dl > div { display: flex; flex-direction: column; }
+.stats dt {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.stats dd {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.keys ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+kbd {
+  display: inline-block;
+  min-width: 20px;
+  padding: 1px 5px;
+  margin-right: 3px;
+  border-radius: 6px;
+  font: 700 10px var(--font);
+  text-align: center;
+  color: var(--ink);
+  background: linear-gradient(#ffffff, #dfe7ef);
+  border: 1px solid rgba(11, 39, 69, 0.25);
+  box-shadow: 0 1px 0 rgba(11, 39, 69, 0.2);
+}
+
+/* ───────────────────────── The well ───────────────────────── */
+
+.well {
+  grid-area: well;
+  position: relative;
+  padding: 10px;
+  border-radius: 24px;
+  background:
+    radial-gradient(ellipse 80% 30% at 50% 0%, rgba(140, 220, 255, 0.35), rgba(140, 220, 255, 0) 70%),
+    linear-gradient(180deg, rgba(10, 60, 130, 0.55), var(--well-fill));
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+  box-shadow:
+    var(--shadow),
+    inset 0 2px 10px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+
+#board {
+  display: block;
+  width: calc(var(--cell) * var(--cols));
+  height: calc(var(--cell) * var(--rows));
+  border-radius: 14px;
+}
+
+.chain-badge {
+  position: absolute;
+  left: 50%;
+  top: 44%;
+  transform: translate(-50%, -50%);
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 40, 90, 0.6);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.12) 50%, rgba(120, 210, 255, 0.35));
+  -webkit-backdrop-filter: blur(8px) saturate(200%);
+  backdrop-filter: blur(8px) saturate(200%);
+  box-shadow: 0 8px 24px rgba(0, 30, 80, 0.35), inset 0 1px 1px #fff, inset 0 -2px 6px rgba(120, 220, 255, 0.5);
+}
+.chain-badge .n { font-size: 30px; }
+
+/* ───────────────────────── Aqua buttons ───────────────────────── */
+
+.buttons { display: flex; flex-direction: column; gap: 10px; }
+
+.aqua-btn {
+  position: relative;
+  overflow: hidden;
+  height: 32px;
+  padding: 0 22px;
+  border-radius: 999px;
+  border: 1px solid rgba(20, 40, 70, 0.45);
+  font: 600 13px var(--font);
+  color: var(--ink);
+  cursor: pointer;
+  background: linear-gradient(180deg, #f6f8fa 0%, #dde3ea 48%, #cfd7e0 52%, #f4f7fa 100%);
+  box-shadow: 0 2px 4px rgba(0, 30, 70, 0.25), inset 0 -2px 4px rgba(255, 255, 255, 0.9);
+}
+.aqua-btn::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  top: 1px;
+  height: 46%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.25));
+  pointer-events: none;
+}
+.aqua-btn.primary {
+  color: #fff;
+  text-shadow: 0 1px 1px rgba(0, 30, 80, 0.55);
+  border-color: #0a3f8f;
+  background: linear-gradient(180deg, #0b57c4 0%, #2a86ea 50%, #6cc2ff 100%);
+  box-shadow: 0 2px 5px rgba(0, 50, 130, 0.4), inset 0 -3px 6px rgba(170, 230, 255, 0.8);
+  animation: aqua-pulse 1.8s ease-in-out infinite;
+}
+.aqua-btn:active { filter: brightness(0.92); }
+.aqua-btn:focus-visible { outline: 3px solid rgba(80, 180, 255, 0.8); outline-offset: 2px; }
+
+@keyframes aqua-pulse {
+  0%, 100% { filter: brightness(1) saturate(1); }
+  50%      { filter: brightness(1.12) saturate(1.2); }
+}
+
+/* ───────────────────────── Small screens ───────────────────────── */
+
+@media (max-width: 760px) {
+  body { padding: 12px 8px; align-items: start; }
+  .window { padding: 0 12px 14px; border-radius: 24px; }
+  .titlebar { margin: 0 -12px 12px; border-radius: 24px 24px 0 0; height: 36px; }
+  .traffic { left: 14px; }
+  .content {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "left right"
+      "well well";
+    gap: 10px;
+  }
+  .well { justify-self: center; padding: 6px; border-radius: 18px; }
+  .side { gap: 8px; }
+  .panel { padding: 8px 10px; border-radius: 14px; }
+  .preview, .preview.tall { height: 56px; }
+  .stats dl { grid-template-columns: repeat(3, auto); gap: 2px 8px; }
+  .stats dl > div:nth-child(n + 4) { display: none; }
+  .stats dd { font-size: 15px; }
+  .keys { display: none; }
+  .buttons { flex-direction: row; }
+  .aqua-btn { flex: 1; padding: 0 8px; height: 28px; font-size: 12px; }
+  .chain-badge { font-size: 17px; }
+  .chain-badge .n { font-size: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cloud, .bubbles span, .aqua-btn.primary { animation: none; }
+}

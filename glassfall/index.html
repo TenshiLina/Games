@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Glassfall</title>
+  <meta name="description" content="A glossy falling-block puzzle mixing Tetris lines with Puyo Puyo colour chains.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Frutiger Aero backdrop -->
+  <div class="scenery" aria-hidden="true">
+    <div class="sun"></div>
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
+    <div class="cloud c3"></div>
+    <div class="aurora a1"></div>
+    <div class="aurora a2"></div>
+    <div class="hill back"></div>
+    <div class="hill front"></div>
+    <div class="bubbles" id="bubbles"></div>
+  </div>
+
+  <main class="window glass" aria-label="Glassfall">
+    <header class="titlebar">
+      <div class="traffic" aria-hidden="true">
+        <span class="light red"></span>
+        <span class="light yellow"></span>
+        <span class="light green"></span>
+      </div>
+      <h1>Glassfall</h1>
+    </header>
+
+    <div class="content">
+      <aside class="side left">
+        <section class="panel glass">
+          <h2>Hold</h2>
+          <canvas id="hold" class="preview"></canvas>
+        </section>
+        <section class="panel glass stats">
+          <dl>
+            <div><dt>Score</dt><dd id="score">48,210</dd></div>
+            <div><dt>Level</dt><dd id="level">4</dd></div>
+            <div><dt>Lines</dt><dd id="lines">37</dd></div>
+            <div><dt>Popped</dt><dd id="popped">112</dd></div>
+            <div><dt>Best chain</dt><dd id="best-chain">5</dd></div>
+          </dl>
+        </section>
+      </aside>
+
+      <div class="well">
+        <canvas id="board"></canvas>
+        <div class="chain-badge" id="chain-badge"><span class="n">3</span> Chain!</div>
+      </div>
+
+      <aside class="side right">
+        <section class="panel glass">
+          <h2>Next</h2>
+          <canvas id="next" class="preview tall"></canvas>
+        </section>
+        <div class="buttons">
+          <button class="aqua-btn primary" type="button">Pause</button>
+          <button class="aqua-btn" type="button">Restart</button>
+        </div>
+        <section class="panel glass keys">
+          <h2>Controls</h2>
+          <ul>
+            <li><kbd>←</kbd><kbd>→</kbd> Move</li>
+            <li><kbd>↑</kbd><kbd>X</kbd> Rotate</li>
+            <li><kbd>Z</kbd> Rotate back</li>
+            <li><kbd>↓</kbd> Soft drop</li>
+            <li><kbd>Space</kbd> Hard drop</li>
+            <li><kbd>C</kbd> Hold</li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <script src="js/render.js"></script>
+  <script src="js/mockup.js"></script>
+</body>
+</html>
