@@ -105,7 +105,20 @@
     }
   }
 
-  GF.mountScenery(document.getElementById("scenery"));
+  function spawnBubbles() {
+    const host = document.getElementById("bubbles");
+    for (let i = 0; i < 16; i++) {
+      const b = document.createElement("span");
+      const size = 14 + Math.random() * 46;
+      b.style.width = b.style.height = size + "px";
+      b.style.left = Math.random() * 100 + "%";
+      b.style.animationDuration = 14 + Math.random() * 18 + "s";
+      b.style.animationDelay = -Math.random() * 30 + "s";
+      host.appendChild(b);
+    }
+  }
+
+  spawnBubbles();
   render();
   window.addEventListener("resize", render);
 })(window.GF);
