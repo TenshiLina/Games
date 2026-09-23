@@ -9,4 +9,7 @@ Open `glassfall/index.html` in a browser. There is no build step and nothing
 to install.
 
 - Design notes and open questions: [`glassfall/DESIGN.md`](glassfall/DESIGN.md)
-- Status: **checkpoint 1**, a static visual mockup (not playable yet).
+- Rules tests: `node glassfall/tests/rules.test.js`
+- Status: **checkpoint 2**, the playable core (keyboard and touch).
+
+![Glassfall mid-chain](glassfall/docs/chain.png)

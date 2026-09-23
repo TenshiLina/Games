@@ -311,6 +311,9 @@ kbd {
 .well {
   grid-area: well;
   position: relative;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
   padding: 10px;
   border-radius: 24px;
   background:
@@ -335,7 +338,9 @@ kbd {
 .chain-badge {
   position: absolute;
   left: 50%;
-  top: 44%;
+  top: 38%;
+  opacity: 0;
+  pointer-events: none;
   transform: translate(-50%, -50%);
   padding: 10px 22px;
   border-radius: 999px;
@@ -350,6 +355,52 @@ kbd {
   box-shadow: 0 8px 24px rgba(0, 30, 80, 0.35), inset 0 1px 1px #fff, inset 0 -2px 6px rgba(120, 220, 255, 0.5);
 }
 .chain-badge .n { font-size: 30px; }
+.chain-badge.show { animation: badge-pop 1.25s ease-out forwards; }
+
+@keyframes badge-pop {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+  14%  { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+  24%  { transform: translate(-50%, -50%) scale(1); }
+  72%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -80%) scale(0.96); }
+}
+
+/* Start / pause / game-over card over the board */
+.overlay {
+  position: absolute;
+  inset: 10px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: rgba(4, 28, 66, 0.35);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+.overlay[hidden] { display: none; }
+
+.overlay-card.glass {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.86), rgba(225, 244, 255, 0.72));
+}
+.overlay-card {
+  width: min(86%, 240px);
+  padding: 20px 18px 18px;
+  border-radius: 22px;
+  text-align: center;
+}
+.overlay-card h2 {
+  margin: 0 0 6px;
+  font-size: 22px;
+  color: var(--ink);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+.overlay-card p {
+  margin: 0 0 16px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.overlay-card p:empty { display: none; }
+.overlay-card .aqua-btn { min-width: 120px; }
 
 /* ───────────────────────── Aqua buttons ───────────────────────── */
 
@@ -420,6 +471,7 @@ kbd {
   .buttons { flex-direction: row; }
   .aqua-btn { flex: 1; padding: 0 8px; height: 28px; font-size: 12px; }
   .chain-badge { font-size: 17px; }
+  .overlay { inset: 6px; }
   .chain-badge .n { font-size: 22px; }
 }
 

@@ -25,18 +25,37 @@ Liquid Glass look.
 
 | Event | Points |
 |---|---|
-| Line clear (1 / 2 / 3 / 4 rows) | 100 / 300 / 500 / 800 × level |
-| Bubbles popped | 10 × bubbles × chain multiplier |
-| Group bonus (5, 6, 7+ in one group) | +2 / +3 / +5 × 10 |
-| Chain multiplier (step 1, 2, 3, 4, 5+) | ×1, ×2, ×4, ×8, ×16 |
+| Line clear (1 / 2 / 3 / 4 rows) | 100 / 300 / 500 / 800 (+400 per extra row) |
+| Bubbles popped | 10 per bubble |
+| Group bonus (5, 6, 7+ in one group) | +20 / +30 / +50 |
 | Soft / hard drop | 1 / 2 per row |
 
-The level goes up every 10 cleared lines *or* every 40 popped bubbles, and each
-level makes pieces fall faster. A fifth colour (violet) joins at level 5.
+Each chain step scores `(lines + pops + group bonus) × chain multiplier × level`,
+where the chain multiplier for step 1, 2, 3, 4 and 5+ is ×1, ×2, ×4, ×8, ×16.
+
+Every 10 cleared lines or 40 popped bubbles (4 bubbles count the same as one
+line) raises the level by 1, and pieces fall faster at each level. A fifth
+colour (violet) joins at level 5.
 
 ## Game over
 
-The game ends when a new piece can't spawn: the spawn area is blocked.
+The game ends when a new piece can't spawn because the spawn area is blocked,
+or when a piece locks partly above the top of the well.
+
+## Controls
+
+| Action | Keyboard | Touch |
+|---|---|---|
+| Move | ← → (or A D), hold to repeat | Drag sideways |
+| Rotate | ↑ / X (or W) clockwise, Z / Ctrl back | Tap the right / left half |
+| Soft drop | ↓ (or S) | Drag down slowly |
+| Hard drop | Space | Flick down |
+| Hold | C / Shift | Flick up |
+| Pause | P / Esc | Pause button |
+
+Rotation uses the standard SRS wall kicks. A 0.5 s lock delay gives you time to
+slide or spin a piece once it lands; each move or rotation on the ground resets
+the delay, up to 15 times. Rotating the O piece cycles its colours.
 
 ## Visual language
 
@@ -51,10 +70,8 @@ The game ends when a new piece can't spawn: the spawn area is blocked.
   specular cap. Same-colour neighbours merge into one shape. A group that is
   about to pop glows.
 
-## Open questions (for feedback)
+## Later ideas
 
-- Board size: 8 × 16 (a middle ground), 10 × 20 (Tetris) or 6 × 12 (Puyo)?
-- Pieces: 2 colours per tetromino, or Puyo-style falling pairs/triples mixed in?
 - Nuisance "ice" bubbles that rise from the bottom (as in Puyo garbage), for a
-  survival or endless mode?
-- Sound: synthesised glassy "plink" and pop effects with Web Audio?
+  survival or endless mode.
+- Sound: synthesised glassy "plink" and pop effects with Web Audio.

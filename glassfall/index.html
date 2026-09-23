@@ -39,18 +39,26 @@
         </section>
         <section class="panel glass stats">
           <dl>
-            <div><dt>Score</dt><dd id="score">48,210</dd></div>
-            <div><dt>Level</dt><dd id="level">4</dd></div>
-            <div><dt>Lines</dt><dd id="lines">37</dd></div>
-            <div><dt>Popped</dt><dd id="popped">112</dd></div>
-            <div><dt>Best chain</dt><dd id="best-chain">5</dd></div>
+            <div><dt>Score</dt><dd id="score">0</dd></div>
+            <div><dt>Level</dt><dd id="level">1</dd></div>
+            <div><dt>Lines</dt><dd id="lines">0</dd></div>
+            <div><dt>Popped</dt><dd id="popped">0</dd></div>
+            <div><dt>Best chain</dt><dd id="best-chain">0</dd></div>
+            <div><dt>High score</dt><dd id="high-score">0</dd></div>
           </dl>
         </section>
       </aside>
 
-      <div class="well">
-        <canvas id="board"></canvas>
-        <div class="chain-badge" id="chain-badge"><span class="n">3</span> Chain!</div>
+      <div class="well" id="well">
+        <canvas id="board" aria-label="Game board"></canvas>
+        <div class="chain-badge" id="chain-badge" aria-live="polite"></div>
+        <div class="overlay" id="overlay">
+          <div class="overlay-card glass">
+            <h2 id="overlay-title">Glassfall</h2>
+            <p id="overlay-text"></p>
+            <button class="aqua-btn primary" type="button" id="overlay-btn">Start</button>
+          </div>
+        </div>
       </div>
 
       <aside class="side right">
@@ -59,8 +67,8 @@
           <canvas id="next" class="preview tall"></canvas>
         </section>
         <div class="buttons">
-          <button class="aqua-btn primary" type="button">Pause</button>
-          <button class="aqua-btn" type="button">Restart</button>
+          <button class="aqua-btn primary" type="button" id="btn-primary">Start</button>
+          <button class="aqua-btn" type="button" id="btn-restart">Restart</button>
         </div>
         <section class="panel glass keys">
           <h2>Controls</h2>
@@ -71,6 +79,7 @@
             <li><kbd>↓</kbd> Soft drop</li>
             <li><kbd>Space</kbd> Hard drop</li>
             <li><kbd>C</kbd> Hold</li>
+            <li><kbd>P</kbd> Pause</li>
           </ul>
         </section>
       </aside>
@@ -78,6 +87,7 @@
   </main>
 
   <script src="js/render.js"></script>
-  <script src="js/mockup.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
