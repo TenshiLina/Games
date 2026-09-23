@@ -9,4 +9,5 @@ Open `glassfall/index.html` in a browser. There is no build step and nothing
 to install.
 
 - Design notes and open questions: [`glassfall/DESIGN.md`](glassfall/DESIGN.md)
-- Status: **checkpoint 1**, a static visual mockup (not playable yet).
+- Status: **checkpoint 1**, a static visual mockup with a generated Frutiger
+  Aero scene behind it (not playable yet).
