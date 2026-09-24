@@ -16,10 +16,14 @@ to install.
 
 ## Armada
 
-A Space Invaders-style shooter with realistic, raymarched 3D art baked to
-sprites.
+A remaster of Space Invaders with realistic graphics: raymarched 3D art
+baked to sprites, on top of faithful arcade rules.
 
-- Design notes, asset list and how to rebuild the art: [`armada/DESIGN.md`](armada/DESIGN.md)
-- Status: **checkpoint 1**, core art and a static scene mockup (not playable yet).
+Open `armada/index.html` in a browser. There is no build step and nothing
+to install.
 
-![Armada scene mockup](armada/docs/mockup.png)
+- Design notes, rules, asset list and how to rebuild the art: [`armada/DESIGN.md`](armada/DESIGN.md)
+- Rules tests: `node armada/tests/rules.test.js`
+- Status: **checkpoint 2**, the playable prototype (keyboard and touch).
+
+![Armada in play](armada/docs/play.png)

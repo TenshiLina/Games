@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Armada</title>
+  <meta name="description" content="A Space Invaders remaster with realistic rendered graphics.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <canvas id="game" aria-label="Armada playfield"></canvas>
+
+  <button class="icon-btn" type="button" id="btn-pause" aria-label="Pause">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+  </button>
+
+  <div class="overlay" id="overlay">
+    <div class="card" role="dialog" aria-labelledby="overlay-title">
+      <h1 id="overlay-title">ARMADA</h1>
+      <p class="lede" id="overlay-text">Hold the orbit line.</p>
+
+      <table class="advance" id="advance" aria-label="Score advance table">
+        <caption>Score advance table</caption>
+        <tr><td><span class="icon mothership"></span></td><td>= ? mystery</td></tr>
+        <tr><td><span class="icon squid"></span></td><td>= 30 points</td></tr>
+        <tr><td><span class="icon crab"></span></td><td>= 20 points</td></tr>
+        <tr><td><span class="icon octopus"></span></td><td>= 10 points</td></tr>
+      </table>
+
+      <button class="btn primary" type="button" id="overlay-btn">Start</button>
+
+      <p class="keys" id="keys">
+        <kbd>←</kbd><kbd>→</kbd> move &nbsp; <kbd>Space</kbd> fire &nbsp; <kbd>P</kbd> pause &nbsp; <kbd>M</kbd> sound
+      </p>
+      <p class="keys touch" id="keys-touch">Touch and drag to fly. Your ship fires while your finger is down.</p>
+      <p class="hi" id="overlay-hi"></p>
+    </div>
+  </div>
+
+  <script src="js/game.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

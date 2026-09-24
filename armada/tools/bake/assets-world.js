@@ -105,3 +105,58 @@ Mat material(float id, vec3 p, vec3 n){
 }
 `,
 });
+
+// Armoured orbital bunker. Seen from above, its footprint is the arcade
+// bunker's arch: chamfered top corners and a notch in the bottom edge.
+ASSETS.push({
+  name: 'bunker',
+  size: [352, 256],
+  extent: .78,
+  bloom: [[3, 0.8], [9, 0.5]],
+  glsl: `
+float arch(vec2 p, float inset){
+  float d = sdBox(vec3(p, 0), vec3(1. - inset, .70 - inset, 1.));
+  d = max(d, (abs(p.x) + p.y - (1.70 - .38 - inset * .6)) * .7071);   // top chamfers
+  float notch = max(abs(p.x) - (.42 + inset), p.y - (-.70 + .40 + inset));
+  notch = max(notch, (abs(p.x) + p.y - (.42 - .70 + .40 - .14 + inset * 1.4)) * .7071);
+  return max(d, -notch);
+}
+float slab(vec3 p, float d2, float h, float r){
+  vec2 w = vec2(d2 + r, abs(p.z) - h + r);
+  return min(max(w.x, w.y), 0.) + length(max(w, 0.)) - r;
+}
+vec2 mapScene(vec3 p){
+  vec2 res = vec2(slab(p - vec3(0, 0, -.06), arch(p.xy, 0.), .16, .035), 1.);
+  // raised upper armour plate
+  res = opU(res, vec2(slab(p - vec3(0, 0, .08), arch(p.xy, .11), .07, .03), 2.));
+  // low hatches with vent slats, and a row of status lights
+  vec3 q = p; q.x = abs(q.x);
+  float hatch = sdRoundBox(q - vec3(.52, .22, .15), vec3(.16, .11, .03), .02);
+  vec3 sl = q - vec3(.52, .22, .18); sl.y = mod(sl.y + .02, .04) - .02;
+  hatch = max(hatch, -max(sdBox(sl, vec3(.12, .008, .02)), abs(q.y - .22) - .08));
+  res = opU(res, vec2(hatch, 3.));
+  vec3 lp = p - vec3(0, .42, .15); lp.x = mod(lp.x + .06, .12) - .06;
+  res = opU(res, vec2(max(sdSphere(lp, .022), abs(p.x) - .2), 4.));
+  return res;
+}
+Mat material(float id, vec3 p, vec3 n){
+  float g = fbm(p * 14.);
+  float st = fbm(vec3(p.x * 30., p.y * 3., 1.));
+  vec3 q = p; q.x = abs(q.x);
+  if (id < 2.5){
+    vec2 pn = panels(p.xy + .3, vec2(.30, .22));
+    vec3 base = mix(vec3(.065, .07, .065), vec3(.10, .105, .095), pn.y) * (.75 + .45 * g);
+    if (id > 1.5) base *= 1.1;
+    base *= mix(1., .7, smoothstep(.5, .8, st));                // grime streaks
+    base *= mix(.35, 1., smoothstep(.0, .008, pn.x));
+    // hazard chevrons on the side walls and around the notch
+    float wall = 1. - abs(n.z);
+    float chev = step(.5, fract((p.x + p.y) * 7.));
+    if (id < 1.5 && wall > .5) base = mix(vec3(.03), vec3(.55, .38, .04), chev) * (.7 + .4 * g);
+    return Mat(base, .35, .5 + .2 * g, vec3(0));
+  }
+  if (id < 3.5) return Mat(vec3(.09, .095, .10) * (.8 + .4 * g), .85, .38, vec3(0));
+  return Mat(vec3(.02), 0., .1, vec3(.2, 1., .4) * .9);
+}
+`,
+});
