@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Armada asset sheet</title>
+<style>
+  body { margin: 0; padding: 28px 32px; background: #07090e; color: #b9c4d6; font: 14px/1.4 "Segoe UI", system-ui, sans-serif; }
+  h1 { margin: 0 0 4px; font-size: 22px; letter-spacing: .25em; color: #e4ecff; font-weight: 600; }
+  p.sub { margin: 0 0 22px; color: #7d8aa0; }
+  .grid { display: flex; flex-wrap: wrap; gap: 18px; }
+  figure { margin: 0; padding: 12px; background: #0d1119; border: 1px solid #1b2230; border-radius: 10px; }
+  figure img { display: block; height: 150px; width: auto; }
+  figure.wide img { height: 110px; }
+  figcaption { margin-top: 8px; font-size: 13px; }
+  figcaption b { color: #e4ecff; font-weight: 600; }
+  figcaption span { color: #6f7c92; }
+</style>
+</head>
+<body>
+<h1>ARMADA · CORE ART</h1>
+<p class="sub">Raymarched 3D models and volumetric effects, baked to sprites by <code>tools/bake</code>. Multi-frame assets are shown as their full sheets.</p>
+<div class="grid" id="g"></div>
+<script>
+const items = [
+  ['player.png', 'Interceptor', 'player ship'],
+  ['invader-squid.png', 'Squid', 'top row, 2 frames'],
+  ['invader-crab.png', 'Crab', 'middle rows, 2 frames'],
+  ['invader-octopus.png', 'Octopus', 'bottom rows, 2 frames'],
+  ['mothership.png', 'Mothership', 'bonus ship, 2 frames'],
+  ['asteroid.png', 'Asteroid shields', '4 variants', 'wide'],
+  ['explosion.png', 'Explosion', '16 frames'],
+  ['bolt-player.png', 'Player bolt', ''],
+  ['bolt-enemy.png', 'Alien plasma', '4 frames'],
+  ['flare.png', 'Muzzle flare', ''],
+  ['bg-planet.png', 'Planet horizon', 'backdrop layer', 'wide'],
+  ['bg-space.jpg', 'Deep space', 'backdrop layer'],
+];
+for (const [file, name, note, cls] of items) {
+  const f = document.createElement('figure');
+  if (cls) f.className = cls;
+  const i = new Image(); i.src = '../assets/' + file;
+  const c = document.createElement('figcaption');
+  c.innerHTML = `<b>${name}</b> <span>${note}</span>`;
+  f.append(i, c);
+  document.getElementById('g').append(f);
+}
+</script>
+</body>
+</html>

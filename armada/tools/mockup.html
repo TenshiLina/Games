@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Armada scene mockup</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+  canvas { display: block; width: 100vw; height: 100vh; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script>
+// Static composition of the baked assets at in-game scale, for art review.
+const names = ['bg-space.jpg', 'bg-planet.png', 'player.png', 'invader-squid.png', 'invader-crab.png',
+  'invader-octopus.png', 'mothership.png', 'asteroid.png', 'bolt-player.png', 'bolt-enemy.png',
+  'explosion.png', 'flare.png'];
+const img = {};
+Promise.all(names.map((n) => new Promise((ok) => {
+  const i = new Image(); i.onload = ok; i.src = '../assets/' + n; img[n.split('.')[0]] = i;
+}))).then(draw);
+
+function draw() {
+  const c = document.getElementById('c');
+  const W = c.width = innerWidth * devicePixelRatio, H = c.height = innerHeight * devicePixelRatio;
+  const ctx = c.getContext('2d');
+  const u = H / 1000; // layout unit: 1000 units tall
+  ctx.imageSmoothingQuality = 'high';
+
+  // backdrop: space covers the screen, the planet sits on the bottom edge
+  const s = img['bg-space'];
+  const k = Math.max(W / s.width, H / s.height);
+  ctx.drawImage(s, (W - s.width * k) / 2, (H - s.height * k) / 2, s.width * k, s.height * k);
+  const pl = img['bg-planet'];
+  const ph = Math.max(W / pl.width * pl.height, 260 * u);
+  const pw = ph / pl.height * pl.width;
+  ctx.drawImage(pl, (W - pw) / 2, H - ph, pw, ph);
+
+  const sprite = (im, frame, frames, x, y, w, cols = frames) => {
+    const fw = im.width / cols, fh = im.height / Math.ceil(frames / cols);
+    const h = w * fh / fw;
+    ctx.drawImage(im, (frame % cols) * fw, Math.floor(frame / cols) * fh, fw, fh, x - w / 2, y - h / 2, w, h);
+  };
+
+  // invader formation: squid on top, two rows of crabs, two of octopi
+  const rows = ['invader-squid', 'invader-crab', 'invader-crab', 'invader-octopus', 'invader-octopus'];
+  const cols = 11, dx = 74 * u, dy = 66 * u;
+  const x0 = W / 2 - (cols - 1) * dx / 2 + 20 * u, y0 = 190 * u;
+  rows.forEach((name, r) => {
+    for (let i = 0; i < cols; i++) {
+      if (r === 3 && i === 7) continue; // one already destroyed
+      sprite(img[name], (i + r) % 2, 2, x0 + i * dx, y0 + r * dy, (name === 'invader-squid' ? 62 : 66) * u);
+    }
+  });
+  // an invader being destroyed
+  sprite(img.explosion, 6, 16, x0 + 7 * dx, y0 + 3 * dy, 120 * u, 4);
+
+  // mothership crossing the top
+  sprite(img.mothership, 0, 2, W * 0.72, 95 * u, 120 * u);
+
+  // asteroid shields
+  for (let i = 0; i < 4; i++) sprite(img.asteroid, i, 4, W / 2 + (i - 1.5) * 250 * u, 760 * u, 130 * u);
+
+  // player and shots
+  const px = W / 2 - 60 * u, py = 880 * u;
+  sprite(img.player, 0, 1, px, py, 92 * u);
+  sprite(img['bolt-player'], 0, 1, px, py - 150 * u, 22 * u);
+  sprite(img['bolt-player'], 0, 1, px, py - 330 * u, 22 * u);
+  sprite(img.flare, 0, 1, px, py - 58 * u, 70 * u);
+  sprite(img['bolt-enemy'], 1, 4, x0 + 3 * dx, y0 + 4 * dy + 120 * u, 34 * u);
+  sprite(img['bolt-enemy'], 3, 4, x0 + 9 * dx, y0 + 4 * dy + 260 * u, 34 * u);
+  // shot hitting a shield
+  sprite(img.explosion, 2, 16, W / 2 + 0.5 * 250 * u - 20 * u, 725 * u, 60 * u, 4);
+
+  // HUD
+  ctx.font = `600 ${22 * u}px "Segoe UI", system-ui, sans-serif`;
+  ctx.fillStyle = 'rgba(210,225,255,.85)';
+  ctx.textBaseline = 'top';
+  ctx.letterSpacing = `${3 * u}px`;
+  ctx.fillText('SCORE  002 840', 40 * u, 28 * u);
+  ctx.textAlign = 'center'; ctx.fillText('HI  014 200', W / 2, 28 * u);
+  ctx.textAlign = 'right'; ctx.fillText('WAVE 3', W - 40 * u, 28 * u);
+  for (let i = 0; i < 3; i++) sprite(img.player, 0, 1, W - 60 * u - i * 46 * u, 960 * u, 38 * u);
+}
+</script>
+</body>
+</html>

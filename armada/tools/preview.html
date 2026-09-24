@@ -1,0 +1,18 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Armada asset preview</title>
+<style>
+body{margin:0;background:#05070c;color:#9ab;font:13px system-ui;display:flex;flex-wrap:wrap;gap:24px;padding:24px;align-items:flex-end}
+figure{margin:0;text-align:center} img{display:block;image-rendering:auto}
+.checker{background:repeating-conic-gradient(#1a1d24 0 25%,#12141a 0 50%) 0 0/16px 16px}
+</style></head><body>
+<script>
+// ?img=player&scale=1,0.5  shows each image on dark space and on a checkerboard
+const q = new URLSearchParams(location.search);
+const scales = (q.get('scale') || '1').split(',').map(Number);
+for (const name of q.get('img').split(',')) for (const s of scales) for (const cls of ['', 'checker']) {
+  const f = document.createElement('figure'); const i = new Image();
+  i.src = '../assets/' + name + (name.startsWith('bg-space') ? '.jpg' : '.png'); i.onload = () => { i.width = i.naturalWidth * s; };
+  i.className = cls; f.append(i, Object.assign(document.createElement('figcaption'), { textContent: name + ' ×' + s }));
+  document.body.append(f);
+}
+</script></body></html>
